@@ -1,45 +1,24 @@
 <script>
-  let rows = [];
-  let columns = 26;
+  import { ActiveTable } from "active-table";
 
-  function addRow() {
-    rows = [...rows, { id: rows.length + 1, cells: Array(columns).fill("") }];
-  }
-
-  let scrollContainer;
-
-  function handleScroll() {
-    if (
-      scrollContainer.scrollHeight - scrollContainer.scrollTop >
-      scrollContainer.clientHeight - 50
-    ) {
-      addRow();
-    }
-  }
-
-  for (let i = 0; i < 50; i++) addRow();
+  const data = [
+    ["Planet", "Diameter", "Mass"],
+    ["Earth", 12756, 5.97],
+    ["Mars", 6792, 0.642],
+  ];
+  const frameComponentsStyles = {
+    styles: { default: { backgroundColor: "#f6f6f6" } },
+    inheritHeaderColors: false,
+  };
 </script>
 
-<div id="wrapper">
-  <div class="container">
-    <h1>Web Spreadsheet</h1>
-    <div id="spreadsheet" bind:this={scrollContainer} on:scroll={handleScroll}>
-      <table>
-        <tr>
-          <th></th>
-          {#each Array(columns) as _, i}
-            <th>{"ABCDEFGHIJKLMNOPQRSTUVWXYZ"[i]}</th>
-          {/each}
-        </tr>
-        {#each rows as row, i}
-          <tr>
-            <th>{row.id}</th>
-            {#each row.cells as cell, j}
-              <td contenteditable="true">{cell}</td>
-            {/each}
-          </tr>
-        {/each}
-      </table>
-    </div>
-  </div>
-</div>
+<main>
+  <h1>Active Table</h1>
+
+  <active-table
+    {data}
+    {frameComponentsStyles}
+    files={{ buttons: [{ import: true }, { export: true }], dragAndDrop: true }}
+    headerStyles={{ default: { backgroundColor: "#d6d6d630" } }}
+  />
+</main>
